@@ -51,6 +51,11 @@ router.post('/:id/move', async (req, res) => {
             return;
         }
 
+        if (isNaN(parseFloat(number))) {
+            res.status(400).json({ error: 'invalid number'});
+            return;
+        }
+
         if (!game.activeNumber) {
           game.activeNumber = number;
         } else {
@@ -61,7 +66,6 @@ router.post('/:id/move', async (req, res) => {
               res.json({ game });
               return;
           }
-          // handle invalid number input
         }
         game.currentUserIdMove = game.user1Id === userId ? game.user2Id : game.user1Id;
         await game.save();
